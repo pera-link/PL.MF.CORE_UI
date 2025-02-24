@@ -1,0 +1,10 @@
+{
+  // @ts-ignore
+  "extends": "ts-config-single-spa",
+  "files": ["src/peralink-core-ui.ts"],
+  "compilerOptions": {
+    "declarationDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"]
+}
