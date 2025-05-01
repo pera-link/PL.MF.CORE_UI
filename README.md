@@ -30,13 +30,6 @@ This package is intended to be consumed as a **dependency** in other microfronte
 - It exports **precompiled global styles** and **utility classes**.
 - Do **not** modify styles directly unless updating or extending the global design system.
 
-```tsx
-// Example usage in your app entry point
-import '@peralink/core-ui/dist/styles.css';
-```
-
----
-
 ## 🛠 Development Guidelines
 
 To maintain styling integrity across projects, adhere to the following:
