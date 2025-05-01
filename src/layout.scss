@@ -1,0 +1,122 @@
+@use "variables" as *;
+@use 'sass:meta';
+
+// Base utility classes (non-responsive)
+@each $prop-short, $prop-full in $properties {
+  @if $prop-full == 'margin' or $prop-full == 'padding' or $prop-full == 'gap' or $prop-full == 'column-gap' or $prop-full == 'row-gap' {
+    // Generate spacing utilities
+    @each $size-name, $size-value in $spacing-scale {
+      @if $prop-short == 'gap' or $prop-short == 'gap-x' or $prop-short == 'gap-y' {
+        // Gap utilities
+        .#{$prop-short}-#{$size-name} {
+          #{$prop-full}: $size-value;
+        }
+      } @else {
+        // Margin/Padding utilities
+        @each $dir-prefix, $dir-values in $directions {
+          $dir-separator: if($dir-prefix == '', '', '-');
+          .#{$prop-short}#{$dir-separator}#{$dir-prefix}-#{$size-name} {
+            @if meta.type-of($dir-values) == 'list' {
+              @each $dir in $dir-values {
+                #{$prop-full}-#{$dir}: $size-value;
+              }
+            } @else if $dir-values == 'all' {
+              #{$prop-full}: $size-value;
+            } @else {
+              #{$prop-full}-#{$dir-values}: $size-value;
+            }
+          }
+        }
+      }
+    }
+  } @else {
+    // Generate sizing utilities
+    @each $size-name, $size-value in $sizing-scale {
+      .#{$prop-short}-#{$size-name} {
+        #{$prop-full}: $size-value;
+      }
+    }
+  }
+}
+
+// Responsive variants (breakpoint in middle)
+@each $bp-name, $bp-value in $breakpoints {
+  @media (min-width: $bp-value) {
+    @each $prop-short, $prop-full in $properties {
+      @if $prop-full == 'margin' or $prop-full == 'padding' or $prop-full == 'gap' or $prop-full == 'column-gap' or $prop-full == 'row-gap' {
+        // Responsive spacing utilities
+        @each $size-name, $size-value in $spacing-scale {
+          @if $prop-short == 'gap' or $prop-short == 'gap-x' or $prop-short == 'gap-y' {
+            // Responsive gap
+            .#{$prop-short}-#{$bp-name}-#{$size-name} {
+              #{$prop-full}: $size-value;
+            }
+          } @else {
+            // Responsive margin/padding
+            @each $dir-prefix, $dir-values in $directions {
+              $dir-separator: if($dir-prefix == '', '', '-');
+              .#{$prop-short}-#{$bp-name}#{$dir-separator}#{$dir-prefix}-#{$size-name} {
+                @if meta.type-of($dir-values) == 'list' {
+                  @each $dir in $dir-values {
+                    #{$prop-full}-#{$dir}: $size-value;
+                  }
+                } @else if $dir-values == 'all' {
+                  #{$prop-full}: $size-value;
+                } @else {
+                  #{$prop-full}-#{$dir-values}: $size-value;
+                }
+              }
+            }
+          }
+        }
+      } @else {
+        // Responsive sizing utilities
+        @each $size-name, $size-value in $sizing-scale {
+          .#{$prop-short}-#{$bp-name}-#{$size-name} {
+            #{$prop-full}: $size-value;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Negative margin utilities
+@each $size-name, $size-value in $spacing-scale {
+  @if $size-name != '0' {
+    @each $dir-prefix, $dir-values in $directions {
+      $dir-separator: if($dir-prefix == '', '', '-');
+      .m#{$dir-separator}#{$dir-prefix}-n-#{$size-name} {
+        @if meta.type-of($dir-values) == 'list' {
+          @each $dir in $dir-values {
+            margin-#{$dir}: -$size-value;
+          }
+        } @else if $dir-values == 'all' {
+          margin: -$size-value;
+        } @else {
+          margin-#{$dir-values}: -$size-value;
+        }
+      }
+    }
+    
+    // Responsive negative margins
+    @each $bp-name, $bp-value in $breakpoints {
+      @media (min-width: $bp-value) {
+        @each $dir-prefix, $dir-values in $directions {
+          $dir-separator: if($dir-prefix == '', '', '-');
+          .m-#{$bp-name}#{$dir-separator}#{$dir-prefix}-n-#{$size-name} {
+            @if meta.type-of($dir-values) == 'list' {
+              @each $dir in $dir-values {
+                margin-#{$dir}: -$size-value;
+              }
+            } @else if $dir-values == 'all' {
+              margin: -$size-value;
+            } @else {
+              margin-#{$dir-values}: -$size-value;
+            }
+          }
+        }
+      }
+    }
+  }
+}

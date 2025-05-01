@@ -1,0 +1,24 @@
+@use "colors" as *;
+
+// Mixin for theme
+@mixin theme($primary, $secondary, $background, $text) {
+    --primary-color: #{$primary};
+    --secondary-color: #{$secondary};
+    --background-color: #{$background};
+    --text-color: #{$text};
+}
+
+// Default theme (light)
+:root {
+    @include theme($primary-color, $secondary-color, $background-color, $text-color);
+}
+
+// Light theme
+.light-theme {
+    @include theme($primary-color, $secondary-color, $background-color, $text-color);
+}
+
+// Dark theme
+.dark-theme {
+    @include theme($dark-primary-color, $dark-secondary-color, $dark-background-color, $dark-text-color);
+}

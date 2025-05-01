@@ -1,3 +1,15 @@
-* {
-  outline: 1px solid red;
+// This file contains the core UI styles for the application.
+// Usage example
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+button.secondary {
+  background-color: var(--secondary-color);
 }
