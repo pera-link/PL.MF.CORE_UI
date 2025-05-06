@@ -6,7 +6,8 @@ $spacing-scale: (
   'md': 1rem,
   'lg': 2rem,
   'xl': 4rem,
-  '2xl': 8rem
+  '2xl': 8rem,
+  'auto': auto
 ) !default;
 
 $sizing-scale: (
@@ -31,17 +32,22 @@ $directions: (
   'inline': ('inline-start', 'inline-end')
 ) !default;
 
-$properties: (
+$spacing_properties: (
   'm': 'margin',
-  'p': 'padding',
+  'p': 'padding'
+) !default;
+
+$sizing_properties: (
   'w': 'width',
   'h': 'height',
-  'gap': 'gap',
-  'gap-x': 'column-gap',
-  'gap-y': 'row-gap'
+  'min-w': 'min-width',
+  'min-h': 'min-height',
+  'max-w': 'max-width',
+  'max-h': 'max-height'
 ) !default;
 
 $breakpoints: (
+  '' : '',
   'sm': 640px,
   'md': 768px,
   'lg': 1024px,
