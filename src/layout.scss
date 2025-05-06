@@ -1,4 +1,4 @@
-@use "variables" as *;
+@use 'variables' as *;
 @use 'sass:meta';
 
 // margin padding classes
@@ -9,36 +9,42 @@
 // .m-sm { margin: 0.25rem; }
 // .p-md { padding: 1rem; }
 // .m-x-lg { margin-left: 2rem; margin-right: 2rem; }
-// .p-t-2xl { padding-top: 8rem; } 
+// .p-t-2xl { padding-top: 8rem; }
 
 @each $break-key, $break-value in $breakpoints {
-  @each $prop-key, $prop-value in $spacing_properties {
-    @each $dir-key, $dir-value in $directions {
-      @each $space-key, $space-value in $spacing-scale {
-        // Build class name (skip empty segments)
-        $class-name: $prop-key;
-        @if $break-key != '' { $class-name: $class-name + '-' + $break-key; }
-        @if $dir-key != '' { $class-name: $class-name + '-' + $dir-key; }
-        @if $space-key != '' { $class-name: $class-name + '-' + $space-key; }
+    @each $prop-key, $prop-value in $spacing_properties {
+        @each $dir-key, $dir-value in $directions {
+            @each $space-key, $space-value in $spacing-scale {
+                // Build class name (skip empty segments)
+                $class-name: $prop-key;
+                @if $break-key != '' {
+                    $class-name: $class-name + '-' + $break-key;
+                }
+                @if $dir-key != '' {
+                    $class-name: $class-name + '-' + $dir-key;
+                }
+                @if $space-key != '' {
+                    $class-name: $class-name + '-' + $space-key;
+                }
 
-        // Generate CSS (avoid invalid properties)
-        .#{$class-name} {
-          @if $dir-key == '' {
-            // Case 1: No direction (e.g., "m-sm" → "margin: 0.25rem")
-            #{$prop-value}: #{$space-value};
-          } @else if  meta.type-of($dir-value) == 'list' {
-            // Case 2: List of directions (e.g., "m-x-sm" → "margin-left: 0.25rem; margin-right: 0.25rem")
-            @each $d in $dir-value {
-              #{$prop-value}-#{$d}: #{$space-value};
+                // Generate CSS (avoid invalid properties)
+                .#{$class-name} {
+                    @if $dir-key == '' {
+                        // Case 1: No direction (e.g., "m-sm" → "margin: 0.25rem")
+                        #{$prop-value}: #{$space-value};
+                    } @else if meta.type-of($dir-value) == 'list' {
+                        // Case 2: List of directions (e.g., "m-x-sm" → "margin-left: 0.25rem; margin-right: 0.25rem")
+                        @each $d in $dir-value {
+                            #{$prop-value}-#{$d}: #{$space-value};
+                        }
+                    } @else {
+                        // Case 3: Single direction (e.g., "m-r-sm" → "margin-right: 0.25rem")
+                        #{$prop-value}-#{$dir-value}: #{$space-value};
+                    }
+                }
             }
-          } @else {
-            // Case 3: Single direction (e.g., "m-r-sm" → "margin-right: 0.25rem")
-            #{$prop-value}-#{$dir-value}: #{$space-value};
-          }
         }
-      }
     }
-  }
 }
 
 // Sizing classes
@@ -49,17 +55,70 @@
 // .w-0 { width: 0; }
 // .h-0 { height: 0; }
 @each $break-key, $break-value in $breakpoints {
-  @each $prop-key, $prop-value in $sizing_properties {
-    @each $size-key, $size-value in $sizing-scale {
-      // Build class name (skip empty segments)
-      $class-name: $prop-key;
-      @if $break-key != '' { $class-name: $class-name + '-' + $break-key; }
-      @if $size-key != '' { $class-name: $class-name + '-' + $size-key; }
+    @each $prop-key, $prop-value in $sizing_properties {
+        @each $size-key, $size-value in $sizing-scale {
+            // Build class name (skip empty segments)
+            $class-name: $prop-key;
+            @if $break-key != '' {
+                $class-name: $class-name + '-' + $break-key;
+            }
+            @if $size-key != '' {
+                $class-name: $class-name + '-' + $size-key;
+            }
 
-      // Generate CSS (avoid invalid properties)
-      .#{$class-name} {
-        #{$prop-value}: #{$size-value};
-      }
+            // Generate CSS (avoid invalid properties)
+            .#{$class-name} {
+                #{$prop-value}: #{$size-value};
+            }
+        }
     }
-  }
+}
+
+// Flex classes
+// This file generates utility classes for flex properties based on the defined breakpoints.
+// <flex>-<breakpoint>-<direction>
+// Example: flex, flex-row, flex-col
+// This will generate classes like:
+// .flex-col { flex-direction: column; }
+// .flex-row { flex-direction: row; }
+@each $break-key, $break-value in $breakpoints {
+    @each $flex-key, $flex-value in $flex_direction {
+        // Build class name (skip empty segments)
+        $class-name: 'flex';
+        @if $break-key != '' {
+            $class-name: $class-name + '-' + $break-key;
+        }
+        @if $flex-key != '' {
+            $class-name: $class-name + '-' + $flex-key;
+        }
+
+        // Generate CSS (avoid invalid properties)
+        .#{$class-name} {
+            flex-direction: #{$flex-value};
+        }
+    }
+}
+
+// Flex wrap classes
+// This file generates utility classes for flex wrap properties based on the defined breakpoints.
+// <flex>-<breakpoint>-<wrap>
+// Example: flex-wrap, flex-nowrap
+// This will generate classes like:
+// .flex-wrap { flex-wrap: wrap; }
+@each $break-key, $break-value in $breakpoints {
+    @each $wrap-key, $wrap-value in $flex_wrap {
+        // Build class name (skip empty segments)
+        $class-name: 'flex';
+        @if $break-key != '' {
+            $class-name: $class-name + '-' + $break-key;
+        }
+        @if $wrap-key != '' {
+            $class-name: $class-name + '-' + $wrap-key;
+        }
+
+        // Generate CSS (avoid invalid properties)
+        .#{$class-name} {
+            flex-wrap: #{$wrap-value};
+        }
+    }
 }
