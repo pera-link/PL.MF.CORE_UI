@@ -20,6 +20,15 @@ $sizing-scale: (
     'full': 100%,
 ) !default;
 
+$breakpoints: (
+    '': '',
+    'sm': 640px,
+    'md': 768px,
+    'lg': 1024px,
+    'xl': 1280px,
+    '2xl': 1536px,
+) !default;
+
 $directions: (
     '': 'all',
     't': 'top',
@@ -71,11 +80,3 @@ $flex_wrap: (
     'nowrap': 'nowrap',
 ) !default;
 
-$breakpoints: (
-    '': '',
-    'sm': 640px,
-    'md': 768px,
-    'lg': 1024px,
-    'xl': 1280px,
-    '2xl': 1536px,
-) !default;
